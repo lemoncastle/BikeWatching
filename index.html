@@ -3,10 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bg</title>
-    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <title>BikeWatching</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="map.css">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+    
 </head>
 <body>
-<h1>hello world</h1>
+<h1>Bikewatching</h1>
+    <div id="info"> 
+        <label for="slider">Filter by time: <input type="range" id="slider" min="-1" max="1440"></label>
+    </div>
+    <em>(any time)</em>
+    <div id="time">
+        <label for="time"><time id="time">00:00</time></label>
+    </div>
+    
+    
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+    <div id="map">
+        <svg></svg>
+    </div>
+    <script src="map.js"></script> <!-- loads map script -->
+
 </body>
 </html>

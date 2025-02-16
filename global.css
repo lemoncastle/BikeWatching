@@ -1,0 +1,26 @@
+body {
+    font: 100%/1.5 system-ui, sans-serif;
+    display: flex;
+    flex-flow: column;
+    max-width: 80em;
+    min-height: 100vh;
+    box-sizing: border-box;
+    margin: auto;
+    padding: 1em;
+}
+
+#info {
+    display: flex;
+    gap:1em;
+    align-items: baseline;
+    margin-left: auto;
+}
+em {
+    display:block;
+    color: gray;
+    margin-left: auto;
+}
+#time {
+    display: block;
+    margin-left: auto;
+}
