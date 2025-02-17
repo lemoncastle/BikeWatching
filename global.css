@@ -8,19 +8,35 @@ body {
     margin: auto;
     padding: 1em;
 }
+h1 {
+    margin: 0;
+}
 
-#info {
-    display: flex;
-    gap:1em;
+#info { /* the slider */
     align-items: baseline;
     margin-left: auto;
-}
-em {
-    display:block;
-    color: gray;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 0px;
+    line-height: 1;
+} #info input[type="range"] { width: 250px; }
+
+#any-time {
+    align-items: baseline;
     margin-left: auto;
+    color: #666;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 0px;
+    line-height: 1.2;
+    font-style: italic;
 }
-#time {
-    display: block;
+
+#selected-time {
+    align-items: baseline;
     margin-left: auto;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    padding: 0px;
+    line-height: 1.2;
 }
