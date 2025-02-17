@@ -1,5 +1,6 @@
 body {
-    font: 100%/1.5 system-ui, sans-serif;
+    font-family: Open Sans, Arial;
+    font: 100%/1.5 system-ui;
     display: flex;
     flex-flow: column;
     max-width: 80em;
@@ -7,6 +8,7 @@ body {
     box-sizing: border-box;
     margin: auto;
     padding: 1em;
+    color: #454545;
 }
 h1 {
     margin: 0;
@@ -19,7 +21,7 @@ h1 {
     margin-bottom: 0px;
     padding: 0px;
     line-height: 1;
-} #info input[type="range"] { width: 250px; }
+} #info input[type="range"] { width: 400px; }
 
 #any-time {
     align-items: baseline;

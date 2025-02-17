@@ -15,7 +15,7 @@
         <div id="info"> 
             <label for="slider">Filter by time: <input type="range" id="time-slider" min="-1" max="1440"></label>
         </div>
-        <p id="any-time">(any time)</p>
+        <p id="any-time"></p>
         <time id="selected-time">00:00</time>
     
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
@@ -25,6 +25,14 @@
         <svg></svg>
     </div>
     <script src="map.js"></script> <!-- loads map script -->
+
+    <div class="legend-container">
+        <div class="legend">
+            <div data-ratio="1">More departures</div>
+            <div data-ratio="0.5">Balanced</div>
+            <div data-ratio="0">More arrivals</div>
+        </div>
+    </div>
 
 </body>
 </html>

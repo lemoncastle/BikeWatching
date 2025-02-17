@@ -1,10 +1,12 @@
 html, body {
+    font-family: Open Sans, Arial;
     margin: 0;
     padding: 5;
     height: 100%;
     width: 100%;
     display: flex;
     justify-content: center;
+    color: #454545;
 }
      
 #map {
@@ -21,7 +23,65 @@ border-radius: 8px; /* Optional: rounded corners */
     height: 100%;
     pointer-events: none;
 }
-
 #map svg circle {
     pointer-events: auto;
+    --color-departures: steelblue;
+    --color-arrivals: darkorange;
+    --color: color-mix(
+        in oklch,
+        var(--color-departures) calc(100% * var(--departure-ratio)),
+        var(--color-arrivals)
+    );
+    fill: var(--color);
+}
+
+.legend-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.legend {
+    background: white;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 12px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.legend::before {
+    content: 'Legend:';
+    font-weight: bold;
+}
+
+.legend div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.legend div::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: var(--color);
+    border-radius: 50%;
+}
+
+.legend div[data-ratio="1"]::before {
+    background: steelblue;
+}
+
+.legend div[data-ratio="0.5"]::before {
+    background: color-mix(in oklch, steelblue 50%, darkorange);
+}
+
+.legend div[data-ratio="0"]::before {
+    background: darkorange;
 }
