@@ -27,7 +27,6 @@ let filteredStations = [];
 let timeFilter = -1;
 
 const timeSlider = document.getElementById('time-slider');
-const anyTimeLabel = document.getElementById('any-time');
 const selectedTime = document.getElementById('selected-time');
 
 let departuresByMinute = Array.from({ length: 1440 }, () => []);
@@ -35,38 +34,11 @@ let arrivalsByMinute = Array.from({ length: 1440 }, () => []);
 
 let stationFlow = d3.scaleQuantize().domain([0, 1]).range([0, 0.5, 1]);
 
-// Function to project station coordinates onto the map  
-function getCoords(station) {
-    const point = map.project([+station.lon, +station.lat]);
-    return { cx: point.x, cy: point.y };
-}
-
-// Function to update circle positions when the map moves/zooms
-function updatePositions() {
-    circles
-        .attr('cx', d => getCoords(d).cx)  // Set the x-position using projected coordinates
-        .attr('cy', d => getCoords(d).cy); // Set the y-position using projected coordinates
-}
-function minutesSinceMidnight(date) { return date.getHours() * 60 + date.getMinutes(); }
-
-function filterByMinute(tripsByMinute, minute) {
-    // Normalize both to the [0, 1439] range
-    let minMinute = (minute - 60 + 1440) % 1440;
-    let maxMinute = (minute + 60) % 1440;
-
-    if (minMinute > maxMinute) {
-        let beforeMidnight = tripsByMinute.slice(minMinute);
-        let afterMidnight = tripsByMinute.slice(0, maxMinute);
-        return beforeMidnight.concat(afterMidnight).flat();
-    } else {
-        return tripsByMinute.slice(minMinute, maxMinute).flat();
-    }
-}
-
 map.on('load', () => { 
     map.addSource('boston_route', {
         type: 'geojson',
-        data: 'https://bostonopendata-boston.opendata.arcgis.com/datasets/boston::existing-bike-network-2022.geojson?...'
+        data: './assets/Existing_Bike_Network_2022.geojson'
+        // data: 'https://bostonopendata-boston.opendata.arcgis.com/datasets/boston::existing-bike-network-2022.geojson?...'
     });
     map.addLayer({
         id: 'bike-lanes',
@@ -77,7 +49,8 @@ map.on('load', () => {
 
     map.addSource('cambridge_route', {
         type: 'geojson',
-        data: 'https://raw.githubusercontent.com/cambridgegis/cambridgegis_data/main/Recreation/Bike_Facilities/RECREATION_BikeFacilities.geojson'
+        data: './assets/RECREATION_BikeFacilities.geojson'
+        // data: 'https://raw.githubusercontent.com/cambridgegis/cambridgegis_data/main/Recreation/Bike_Facilities/RECREATION_BikeFacilities.geojson'
     });
     map.addLayer({
         id: 'cambridge-bike-lanes',
@@ -86,7 +59,8 @@ map.on('load', () => {
         paint: blStyle 
     });
 
-    const jsonurl = 'https://dsc106.com/labs/lab07/data/bluebikes-stations.json';
+    // const jsonurl = 'https://dsc106.com/labs/lab07/data/bluebikes-stations.json';
+    const jsonurl = './assets/bluebikes-stations.json';
     d3.json(jsonurl).then(jsonData => {
         stations = jsonData.data.stations;
         
@@ -114,7 +88,9 @@ map.on('load', () => {
         console.error('Error loading JSON:', error);  // Handle errors if JSON loading fails
     });
 
-    d3.csv('https://dsc106.com/labs/lab07/data/bluebikes-traffic-2024-03.csv').then(trips => {
+    // const csvurl = 'https://dsc106.com/labs/lab07/data/bluebikes-traffic-2024-03.csv';
+    const csvurl = './assets/bluebikes-traffic-2024-03.csv';
+    d3.csv(csvurl).then(trips => {
         let arrivals = d3.rollup(
             trips,
             (v) => v.length,
@@ -203,11 +179,9 @@ map.on('load', () => {
             timeFilter = Number(timeSlider.value);  // Get slider value
           
             if (timeFilter === -1) {
-              selectedTime.textContent = '';  // Clear time display
-              anyTimeLabel.textContent = '(any time)';  // Set text to "(any time)"
+              selectedTime.innerHTML = '<em style="color: grey;">(any time)</em>';  // anytime
             } else {
               selectedTime.textContent = formatTime(timeFilter);  // Display formatted time
-              anyTimeLabel.textContent = '';  // Hide "(any time)"
             }
           
             filterTripsbyTime();
@@ -220,3 +194,32 @@ map.on('load', () => {
         console.error('Error loading CSV:', error);  // Handle errors if CSV loading fails
     });
 });
+
+
+// Function to project station coordinates onto the map  
+function getCoords(station) {
+    const point = map.project([+station.lon, +station.lat]);
+    return { cx: point.x, cy: point.y };
+}
+
+// Function to update circle positions when the map moves/zooms
+function updatePositions() {
+    circles
+        .attr('cx', d => getCoords(d).cx)  // Set the x-position using projected coordinates
+        .attr('cy', d => getCoords(d).cy); // Set the y-position using projected coordinates
+}
+function minutesSinceMidnight(date) { return date.getHours() * 60 + date.getMinutes(); }
+
+function filterByMinute(tripsByMinute, minute) {
+    // Normalize both to the [0, 1439] range
+    let minMinute = (minute - 60 + 1440) % 1440;
+    let maxMinute = (minute + 60) % 1440;
+
+    if (minMinute > maxMinute) {
+        let beforeMidnight = tripsByMinute.slice(minMinute);
+        let afterMidnight = tripsByMinute.slice(0, maxMinute);
+        return beforeMidnight.concat(afterMidnight).flat();
+    } else {
+        return tripsByMinute.slice(minMinute, maxMinute).flat();
+    }
+}
