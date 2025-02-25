@@ -1,4 +1,4 @@
-// Set your Mapbox access token here
+// Set your **public** Mapbox access token here
 mapboxgl.accessToken = 'pk.eyJ1IjoibWVsb25jYXN0bGUiLCJhIjoiY203N3lhdmN4MTM1dzJrcGpjZjVkNGFhMiJ9.cJqT1cmLKtS5Lq0za-akHg';
 
 // Initialize the map
@@ -11,6 +11,7 @@ const map = new mapboxgl.Map({
     maxZoom: 18 // Maximum allowed zoom
 });
 
+// Bike lane styling
 const blStyle = {
     'line-color': 'green',
     'line-width': 3,
@@ -122,7 +123,7 @@ map.on('load', () => {
                 .text(`${d.totalTraffic} trips (${d.departures} departures, ${d.arrivals} arrivals)`);
         });
         
-        for (const trip of trips) {
+        for (const trip of trips) { // Group trips by minute of the day, for slider optimization
             const startedMinutes = minutesSinceMidnight(new Date(trip.started_at));
             const endedMinutes = minutesSinceMidnight(new Date(trip.ended_at));
         
@@ -138,12 +139,12 @@ map.on('load', () => {
                 filteredDepartures1 = departuresByMinute.flat();
             }
             
-            filteredArrivals = d3.rollup(
+            filteredArrivals = d3.rollup( // Roll up the filtered trips by station
                 filteredArrivals1,
                 (v) => v.length,
                 (d) => d.end_station_id
             );
-            filteredDepartures = d3.rollup(
+            filteredDepartures = d3.rollup( // Roll up the filtered trips by station
                 filteredDepartures1,
                 (v) => v.length,
                 (d) => d.start_station_id,
@@ -158,9 +159,9 @@ map.on('load', () => {
                 return station;
             });
             
-            radiusScale.range(timeFilter === -1 ? [0, 25] : [3, 50]);
+            radiusScale.range(timeFilter === -1 ? [0, 25] : [3, 50]); // Adjust radius scale based on time filter
         
-            circles.data(filteredStations)
+            circles.data(filteredStations) // Update circles with filtered data
                 .attr('r', d => radiusScale(d.totalTraffic))
                 .attr('cx', d => getCoords(d).cx)
                 .attr('cy', d => getCoords(d).cy)
@@ -196,13 +197,13 @@ map.on('load', () => {
 });
 
 
-// Function to project station coordinates onto the map  
+// projects station coordinates onto the map  
 function getCoords(station) {
     const point = map.project([+station.lon, +station.lat]);
     return { cx: point.x, cy: point.y };
 }
 
-// Function to update circle positions when the map moves/zooms
+// updates circle positions when the map moves/zooms
 function updatePositions() {
     circles
         .attr('cx', d => getCoords(d).cx)  // Set the x-position using projected coordinates

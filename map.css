@@ -16,6 +16,7 @@ html, body {
     border-radius: 3px; 
 }
 
+/*D3 overlayed map*/
 #map svg {
     position: absolute;
     z-index: 1;
@@ -36,6 +37,7 @@ html, body {
     fill: var(--color);
 }
 
+/* Styling the legend */
 .legend-container {
     display: flex;
     justify-content: center;

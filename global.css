@@ -12,7 +12,8 @@ body {
 }
 h1 { margin: 0; }
 
-#info { /* the slider */
+/* slider styling */
+#info {
     align-items: baseline;
     margin-left: auto;
     margin-top: -10px;
